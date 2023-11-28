@@ -12,10 +12,6 @@ import argparse
 import json
 import ast
 
-#For DAC Analysis TODO remove these
-ECO_PRINT = False #Print from ECO-CHIP
-DAC_PRINT = True # For DAC, if DAC_SCRIPT True then just runs the scirpt and generates info wanted, that can be copied to CSV, if DAC_SCRIPT False then prints detailed. 
-DAC_SCRIPT = True # To NOT print parameters and other things, used for DAC
 
 
 scaling_factors = load_tables()
@@ -102,15 +98,14 @@ operationalC_file = design_dir+'operationalC.json'
 packageC_file = design_dir+'packageC.json'
 app_dev_file = design_dir+'appdev.json'
 eol_file = design_dir+'eol.json'
-if not DAC_SCRIPT:
-    print(" ---------------------------------------------------------")
-    print("Using below files for CFP estimations : \n")
-    print(area_file)
-    print(node_list_file)
-    print(designC_file)
-    print(operationalC_file)
-    print(packageC_file)
-    print(" ---------------------------------------------------------")
+print(" ---------------------------------------------------------")
+print("Using below files for CFP estimations : \n")
+print(area_file)
+print(node_list_file)
+print(designC_file)
+print(operationalC_file)
+print(packageC_file)
+print(" ---------------------------------------------------------")
 
 
 with open(node_list_file , 'r') as file:
@@ -233,87 +228,41 @@ result = calculate_CO2(design,scaling_factors, nodes, 'Test Name',
                        Pc = cpu_pow_p_core, rcy_frac = recycle_frac, rcy_cpa_frac = recycle_cpa_frac,
                        energy_pp_yr=energy_pp_yr,tot_emp=total_emp,gate_sc=gate_scale)
 
-if DAC_PRINT:
-    if not DAC_SCRIPT:
-        print("-------------------------")
-        print("For DAC Analysis")
-        print("-------------------------")
-    
-    
-        print("Parameters Values")
-        print("Power",power)
-        print("Volume",num_prt_mfg)
-        print("CarbonPkWh-Ope",carbon_per_kWh)
-        print("recycle Fraction",recycle_frac)
-        print("recycle CPA fraction",recycle_cpa_frac)
-        print("Num Apps",num_app)
-        print("App Size",app_size)
-        print("FPGA Cap",fpga_cap)
-        print("N_Fpga",N_fpga)
-        print("FE dev time",FE_dev_time)
-        print("BE dev time",BE_dev_time)
-        print("FPGA Types",num_fpga_types)
-        print("Config time",config_time)
-        print("CPU power per core",cpu_pow_p_core)
-        print("Num cores in CPU",num_core)
-        print("Application CarbonPkWH",app_Carbon_per_kWh)
-        print("NFpga",N_fpga)
-        print("Discard fraction",dis_frac)
-        print("Chip Weight",chip_weight)
-        print("Lifetime",lifetime)
-        print("Lifetime in yrs",lifetime/(365*24))
-        print("Design Area",np.sum(design.area.values))
-        print("num_des",NUM_des)
-        print("Area of design",design.area.values.sum())
-    
+cdes = result[1] #Using from CO2.py 
+cmfg = result[0].sum(axis=1)
+ceol = result[5]
+cope = result[3].sum(axis=1)
+capp = result[4]
 
-    if not DAC_SCRIPT: 
-        print("-------------------------")
-        print("Results")
-    cdes = result[1] #Using from CO2.py 
-    cmfg = result[0].sum(axis=1)
-    ceol = result[5]
-    cope = result[3].sum(axis=1)
-    capp = result[4]
-    if not DAC_SCRIPT :
-        print("cdes",cdes/1000)
-        print("cmfg",cmfg.iloc[0]/1000)  
-        print("ceol",ceol/1000)
-        print("cope",cope.iloc[0]/1000)
-        print("capp",capp/1000)
 
-    #Converting to Kgs
-    cdes = cdes/1000
-    cmfg = cmfg.iloc[0]/1000
-    ceol = ceol/1000
-    cope = cope.iloc[0]/1000
-    capp = capp/1000
+#Converting to Kgs
+cdes = cdes/1000
+cmfg = cmfg.iloc[0]/1000
+ceol = ceol/1000
+cope = cope.iloc[0]/1000
+capp = capp/1000
 
     
-    des_c,mfg_c,eol_c,ope_c,app_c = total_cfp_gen(num_des=num_des,des_c_pu=cdes,mfg_c_pu=cmfg,n_fpga=N_fpga,
-                                                  vol=num_prt_mfg,eol_c_pu=ceol,ope_c_pu=cope,app_c_tot=capp,dc=dc)
+des_c,mfg_c,eol_c,ope_c,app_c = total_cfp_gen(num_des=num_des,des_c_pu=cdes,mfg_c_pu=cmfg,n_fpga=N_fpga,
+                                              vol=num_prt_mfg,eol_c_pu=ceol,ope_c_pu=cope,app_c_tot=capp,dc=dc)
 
     
     
-    print(" Total CFP des:"+str(num_des)+"_app:"+str(num_app)+"_life:"+str(lifetime)+"_power:"+str(power)+"_area"+str(design.area.values.sum())+" Des mfg eol ope app")
-    emb_c = des_c+mfg_c+eol_c+app_c
-    tot=emb_c+ope_c
+#print(" Total CFP des:"+str(num_des)+"_app:"+str(num_app)+"_life:"+str(lifetime)+"_power:"+str(power)+"_area"+str(design.area.values.sum())+" Des mfg eol ope app")
+emb_c = des_c+mfg_c+eol_c+app_c
+tot=emb_c+ope_c
     
-    print("-------------------------")
-    print(f"Design    CFP : {des_c:e}")
-    print(f"Mfg       CFP : {mfg_c:e}")
-    print(f"EOL       CFP : {eol_c:e}")
-    print(f"Operation CFP : {ope_c:e}")
-    print(f"App Dev   CFP : {app_c:e}")
-    print("-------------------------")
-    print(f"Embodied  CFP : {emb_c:e}")
-    print(f"Operation CFP : {ope_c:e}")
-    print("-------------------------")
-    print(f"Total     CFP : {tot:e}")
-    print("-------------------------")
-    print(" ")
-    #print('Ratio ',emb/ope)
-    #print("-------------------------")
-    print("num_prt_mfg",num_prt_mfg)
-    print("num_app",num_app)
-    print("lifetime",lifetime)
+print("-------------------------")
+print(f"Design    CFP : {des_c:e}")
+print(f"Mfg       CFP : {mfg_c:e}")
+print(f"EOL       CFP : {eol_c:e}")
+print(f"Operation CFP : {ope_c:e}")
+print(f"App Dev   CFP : {app_c:e}")
+print("-------------------------")
+print(f"Embodied  CFP : {emb_c:e}")
+print(f"Operation CFP : {ope_c:e}")
+print("-------------------------")
+print(f"Total     CFP : {tot:e}")
+print("-------------------------")
+print(" ")
+  
