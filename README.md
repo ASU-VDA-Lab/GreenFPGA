@@ -1,10 +1,11 @@
 # GreenFPGA
 
 Tool to evaluate the carbon footprint of FPGA-based computing across its lifetime. The tool can also perform comparisons with ASIC counterpart. 
-<!--- <img src="images/greenfga-arch.png" alt="drawing" width="300"/> --->
+
+<!--- <img src="images/greenfga-arch.png" alt="drawing" width="200"/> --->
 ![LifeCycle](images/fpga-lifecycle.png)
 
-<!--- <img src="images/greenfga-arch.png" alt="drawing" width="300"/> --->
+<!--- <img src="images/greenfga-arch.png" alt="drawing" width="200"/> --->
 ![GreenFPGA](images/greenfga-arch.png)
 
 
