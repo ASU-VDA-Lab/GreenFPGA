@@ -2,9 +2,17 @@
 
 Tool to evaluate the carbon footprint of FPGA-based computing across its lifetime. The tool can also perform comparisons with ASIC counterpart. 
 
-Add an Image 
+![LifeCycle](images/fpga-lifecycle.png)
+
+<!--- <img src="images/greenfga-arch.png" alt="drawing" width="600"/> --->
+![GreenFPGA](images/greenfga-arch.png)
+
+
+## Abstract
 
 ## Table of Contents
+
+## File Structure 
 Add this with links 
 ```
 ├── LICENSE
@@ -87,6 +95,8 @@ Explain about these parameters, that can be added along with the command for fas
 --emb_vol : Embodied Volume
 ```
 
+![DNN-Sweep](images/dnn.png)
+
 Explain about each input parameter files and parameters used 
 ```
         ├── appdev.json
@@ -97,5 +107,9 @@ Explain about each input parameter files and parameters used
         ├── operationalC.json
         └── packageC.json
 ```
+![ASIC-FPGA](images/asic_fpga_app.png)
 
 Add result runs 
+
+Add Citation 
+
