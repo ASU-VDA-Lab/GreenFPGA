@@ -1,0 +1,13 @@
+{
+	"power"       : 30,
+	"num_iter" 	  : 100,
+	"num_prt_mfg" : 1e6,
+	"Transistors_per_gate" : 8,
+	"Power_per_core" : 10,
+	"Carbon_per_kWh" : 700,
+	"recycle_frac" : 0.0,
+	"recycle_cpa_frac" : 0.4,
+	"epp_yr" : 0.4625,
+	"tot_emp" : 4000,
+	"gate_scale" : 4
+}

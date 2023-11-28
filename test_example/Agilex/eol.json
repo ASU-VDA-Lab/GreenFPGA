@@ -1,0 +1,6 @@
+{
+    "discard_frac" : 0.8,
+    "Cdis_per_ton" : 10,
+    "Crec_per_ton" : 2,
+    "chip_weight"  : 2
+}
