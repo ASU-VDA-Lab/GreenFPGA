@@ -242,7 +242,6 @@ ceol = ceol/1000
 cope = cope.iloc[0]/1000
 capp = capp/1000
 
-    
 des_c,mfg_c,eol_c,ope_c,app_c = total_cfp_gen(num_des=num_des,des_c_pu=cdes,mfg_c_pu=cmfg,n_fpga=N_fpga,
                                               vol=num_prt_mfg,eol_c_pu=ceol,ope_c_pu=cope,app_c_tot=capp,dc=dc)
 

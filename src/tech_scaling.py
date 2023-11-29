@@ -28,13 +28,6 @@ def load_tables():
         cpa_scaling_table = json.load(cpa_sc)
     cpa = pd.DataFrame(data=cpa_scaling_table,index=tech_indices_package)
     
-    with open("tech_params/transistors_scaling.json",'r') as transistors_sc:
-        transistors_scaling_table = json.load(transistors_sc)
-    Transistors_per_mm2 = pd.DataFrame(data=transistors_scaling_table,index=tech_indices)
-    
-    with open("tech_params/gates_perhr_scaling.json",'r') as gph_sc:
-        gph_scaling_table = json.load(gph_sc)
-    Gates_per_hr_per_core = pd.DataFrame(data=gph_scaling_table,index=tech_indices)
     
     with open("tech_params/beol_feol_scaling.json",'r') as beolfeol_sc:
         beolfeol_scaling_table = json.load(beolfeol_sc)
@@ -51,8 +44,6 @@ def load_tables():
             "sram": sram_scaling, 
             "cpa" : cpa,
             "defect_den": defect_density,
-            "transistors_per_mm2" : Transistors_per_mm2,
-            "gates_per_hr_per_core" : Gates_per_hr_per_core,
             "beolVfeol" : beolVfeol,
             "dyn_pwr_ratio" : dyn_pwr_ratio
         }
