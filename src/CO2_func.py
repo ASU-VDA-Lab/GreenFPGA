@@ -155,30 +155,6 @@ def Interposer(areas, techs, types, scaling_factors, package_type="passive", alw
         return package_carbon, router_carbon, router_design
 
 
-###############################################
-#TODO : Remove comments 
-
-def plot_packaging_carbon(carbon,labels):
-    carbon.plot(kind='bar', stacked=False, figsize = (21,7),
-        title='Packaging CO2 overhead manufacturing')
-    plt.xticks(fontsize=20)
-    plt.yticks(fontsize=20)
-    
-    plt.figure()
-    ax = carbon[[x for x in labels if 'passive' in x]].plot.bar(
-            stacked=True, figsize=(21,7), color=['tab:blue','tab:orange'], position=0, width=0.2)
-    carbon[[x for x in labels if 'active' in x]].plot.bar(
-            stacked=True, sharex=True, ax=ax, position=1, width=0.2, color=['tab:green','tab:red'])
-    carbon[[x for x in labels if 'RDL' in x]].plot.bar(
-            stacked=True, sharex=True, ax=ax, position=2, width=0.2, color=['tab:purple','tab:brown'])
-    carbon[[x for x in labels if 'EMIB' in x]].plot.bar(
-            stacked=True, sharex=True, ax=ax, position=3, width=0.2, color=['tab:pink','tab:cyan'])
-    legend = ax.legend(labels, fontsize=12)#, loc='center left', bbox_to_anchor=(1.0, 0.93))
-    plt.show()
-
-
-    
-
 
 ###############################################
 #Wastage calculation 
