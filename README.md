@@ -26,13 +26,10 @@ Add this with links
 │   ├── ECO_chip.py
 │   └── tech_scaling.py
 ├── tech_params
-│   ├── analog_scaling.json
 │   ├── beol_feol_scaling.json
 │   ├── cpa_scaling.json
 │   ├── defect_density.json
-│   ├── dyn_pwr_scaling.json
-│   ├── logic_scaling.json
-│   └── sram_scaling.json
+│   └── dyn_pwr_scaling.json
 └── test_example
     ├── Agilex
     │   ├── fpga_spec.json
