@@ -1,0 +1,8 @@
+{
+    "area" : 400,
+    "power" : 30,
+    "lifetime" : 131400,
+    "num_app" : 5,
+    "num_des" : 1,
+    "num_prt_mfg" : 1e6
+}

@@ -17,6 +17,7 @@ import ast
 scaling_factors = load_tables()
 
 
+
 parser = argparse.ArgumentParser(description='Provide a Carbon Foot Print(CFP) estimate ')
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -91,21 +92,15 @@ if args.emb_vol is not None :
 
 ##########    
 
-area_file = design_dir+'area.json'
+param_json_file = design_dir+'green_fpga_param.json'
+fpga_spec_file = design_dir+'fpga_spec.json'
 node_list_file = design_dir+'node_list.txt'
-designC_file = design_dir+'designC.json'
-operationalC_file = design_dir+'operationalC.json'
-packageC_file = design_dir+'packageC.json'
-app_dev_file = design_dir+'appdev.json'
-eol_file = design_dir+'eol.json'
-print(" ---------------------------------------------------------")
-print("Using below files for CFP estimations : \n")
-print(area_file)
+print("-------------------------")
+print("Using below files ")
+print(param_json_file)
+print(fpga_spec_file)
 print(node_list_file)
-print(designC_file)
-print(operationalC_file)
-print(packageC_file)
-print(" ---------------------------------------------------------")
+print("-------------------------")
 
 
 with open(node_list_file , 'r') as file:
@@ -113,9 +108,14 @@ with open(node_list_file , 'r') as file:
 nodes = [ast.literal_eval(node_item) for node_item in nodes]
 nodes = [data for inside_node in nodes for data in inside_node]
 
-with open(area_file,'r') as file:
-    area_json = json.load(file)
-area = area_json['area']
+
+
+with open(fpga_spec_file,'r') as file:
+    fpga_spec_json = json.load(file)
+with open(param_json_file,'r') as file:
+    param_json = json.load(file)
+    
+area = fpga_spec_json['area']
 
 inp_des=pd.DataFrame()
 inp_des.at['Logic','type'] = 'logic'
@@ -136,83 +136,73 @@ else :
 
 
 
-with open(designC_file, 'r') as f:
-    designC_values = json.load(f)
 if args.power is not None :
     power = chip_power
 else:
-    power = float(designC_values['power'])
+    power = float(fpga_spec_json['power'])
 powers = design.area.values * power / design.area.values.sum()
-num_iter = designC_values['num_iter']
+num_iter = param_json['num_iter']
 if args.emb_vol is not None :
     num_prt_mfg = emb_volume
 else :
-    num_prt_mfg = designC_values['num_prt_mfg']
-transistors_per_gate = designC_values['Transistors_per_gate']
-power_per_core = designC_values['Power_per_core']
-carbon_per_kWh = designC_values['Carbon_per_kWh']
-recycle_frac = designC_values['recycle_frac']
-recycle_cpa_frac = designC_values['recycle_cpa_frac']
-total_emp = designC_values['tot_emp']
-gate_scale = designC_values['gate_scale']
-energy_pp_yr = designC_values['epp_yr']
+    num_prt_mfg = fpga_spec_json['num_prt_mfg']
+transistors_per_gate = param_json['Transistors_per_gate']
+power_per_core = param_json['Power_per_core']
+carbon_per_kWh = param_json['Carbon_per_kWh']
+recycle_frac = param_json['recycle_frac']
+recycle_cpa_frac = param_json['recycle_cpa_frac']
+total_emp = param_json['tot_emp']
+gate_scale = param_json['gate_scale']
+energy_pp_yr = param_json['epp_yr']
 
-with open(app_dev_file,'r') as f:
-    app_dev_values = json.load(f)
 if args.num_app is not None :
     num_app = NUM_App
 else :
-    num_app = app_dev_values['num_app']
+    num_app = fpga_spec_json['num_app']
 
 if args.num_des is not None :
     num_des = NUM_des
 else :
-    num_des = app_dev_values['num_des']
+    num_des = fpga_spec_json['num_des']
 
 
-app_size = app_dev_values['App_size']
-fpga_cap = app_dev_values['Fpga_cap']
-FE_dev_time = app_dev_values['FE_dev_time']
-BE_dev_time = app_dev_values['BE_dev_time']
-num_fpga_types = app_dev_values['num_fpga_types']
-config_time = app_dev_values['config_time']
-cpu_pow_p_core = app_dev_values['CPU_power_per_core']
-num_core = app_dev_values['num_CPU_cores']
-app_Carbon_per_kWh = app_dev_values['app_dev_Carbon_per_kWh']
+app_size = param_json['App_size']
+fpga_cap = param_json['Fpga_cap']
+FE_dev_time = param_json['FE_dev_time']
+BE_dev_time = param_json['BE_dev_time']
+num_fpga_types = param_json['num_fpga_types']
+config_time = param_json['config_time']
+cpu_pow_p_core = param_json['CPU_power_per_core']
+num_core = param_json['num_CPU_cores']
+app_Carbon_per_kWh = param_json['app_dev_Carbon_per_kWh']
 if args.nfpga is not None:
     N_fpga = NUM_fpga
 else :
     N_fpga = app_size/fpga_cap
 
-with open(eol_file,'r') as f:
-    eol_values = json.load(f)
-dis_frac = eol_values['discard_frac']
-Cdis_p_ton = eol_values['Cdis_per_ton']
-Crec_per_ton = eol_values['Crec_per_ton']
-chip_weight = eol_values['chip_weight']
+dis_frac =     param_json['discard_frac']
+Cdis_p_ton =   param_json['Cdis_per_ton']
+Crec_per_ton = param_json['Crec_per_ton']
+chip_weight =  param_json['chip_weight']
 
 
 design.insert(loc=2,column='power',value=powers)
     
-with open(operationalC_file,'r') as f:
-    operationalC_values = json.load(f)
 if args.num_lifetime is not None :
     lifetime = NUM_Life
 else :
-    lifetime = operationalC_values['lifetime']
-dc = operationalC_values['dc']
+    lifetime = fpga_spec_json['lifetime']
+dc = param_json['dc']
     
     
-with open(packageC_file,'r') as f:
-    packageC_values = json.load(f)
-package_type = packageC_values['pkg_type']
-interposer_node = packageC_values['interposer_node']
-rdl_layer = packageC_values['rdl_layers']
-emib_layers = packageC_values['emib_layers']
-emib_pitch = packageC_values['emib_pitch']
-tsv_pitch = packageC_values['tsv_pitch']
-tsv_size = packageC_values['tsv_size']
-numBEOL = packageC_values['num_beol']
+package_type =    param_json['pkg_type']
+interposer_node = param_json['interposer_node']
+rdl_layer =       param_json['rdl_layers']
+emib_layers =     param_json['emib_layers']
+emib_pitch =      param_json['emib_pitch']
+tsv_pitch =       param_json['tsv_pitch']
+tsv_size =        param_json['tsv_size']
+numBEOL =         param_json['num_beol']
 
 
 
