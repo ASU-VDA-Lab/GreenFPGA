@@ -14,6 +14,11 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
 ## File Structure 
 Add this with links 
 ```
+├── images
+│   ├── asic_fpga_app.png
+│   ├── dnn.png
+│   ├── fpga-lifecycle.png
+│   └── greenfga-arch.png
 ├── LICENSE
 ├── README.md
 ├── src
@@ -26,59 +31,33 @@ Add this with links
 │   ├── cpa_scaling.json
 │   ├── defect_density.json
 │   ├── dyn_pwr_scaling.json
-│   ├── gates_perhr_scaling.json
 │   ├── logic_scaling.json
-│   ├── sram_scaling.json
-│   └── transistors_scaling.json
+│   └── sram_scaling.json
 └── test_example
     ├── Agilex
-    │   ├── appdev.json
-    │   ├── area.json
-    │   ├── designC.json
-    │   ├── eol.json
-    │   ├── node_list.txt
-    │   ├── operationalC.json
-    │   └── packageC.json
+    │   ├── fpga_spec.json
+    │   ├── green_fpga_param.json
+    │   └── node_list.txt
     ├── ASIC_analysis
-    │   ├── appdev.json
-    │   ├── area.json
-    │   ├── designC.json
-    │   ├── eol.json
-    │   ├── node_list.txt
-    │   ├── operationalC.json
-    │   └── packageC.json
+    │   ├── fpga_spec.json
+    │   ├── green_fpga_param.json
+    │   └── node_list.txt
     ├── FPGA_analysis
-    │   ├── appdev.json
-    │   ├── area.json
-    │   ├── designC.json
-    │   ├── eol.json
-    │   ├── node_list.txt
-    │   ├── operationalC.json
-    │   └── packageC.json
+    │   ├── fpga_spec.json
+    │   ├── green_fpga_param.json
+    │   └── node_list.txt
     ├── Moffett
-    │   ├── appdev.json
-    │   ├── area.json
-    │   ├── designC.json
-    │   ├── eol.json
-    │   ├── node_list.txt
-    │   ├── operationalC.json
-    │   └── packageC.json
+    │   ├── fpga_spec.json
+    │   ├── green_fpga_param.json
+    │   └── node_list.txt
     ├── Stratix
-    │   ├── appdev.json
-    │   ├── area.json
-    │   ├── designC.json
-    │   ├── eol.json
-    │   ├── node_list.txt
-    │   ├── operationalC.json
-    │   └── packageC.json
+    │   ├── fpga_spec.json
+    │   ├── green_fpga_param.json
+    │   └── node_list.txt
     └── TPU
-        ├── appdev.json
-        ├── area.json
-        ├── designC.json
-        ├── eol.json
-        ├── node_list.txt
-        ├── operationalC.json
-        └── packageC.json
+        ├── fpga_spec.json
+        ├── green_fpga_param.json
+        └── node_list.txt
 ```
 
 Explain about these parameters, that can be added along with the command for faster analysis 
