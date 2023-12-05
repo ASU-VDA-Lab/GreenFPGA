@@ -11,7 +11,13 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
 
 ## Table of Contents
 
-## File Structure 
+-   [Directory structure](#directory-structure)
+-   [Getting started](#getting-started)
+-   [Key parameters](#key-parameters)
+-   [Running GreenFPGA](#running-greenfpga)
+-   [Outputs](#outputs)
+
+## Directory Structure 
 Add this with links 
 ```
 ├── images
@@ -57,6 +63,10 @@ Add this with links
         └── node_list.txt
 ```
 
+## Getting started
+
+## Key parameters
+
 Explain about these parameters, that can be added along with the command for faster analysis 
 ```
 --design_dir : Directory for desing analysis 
@@ -81,7 +91,12 @@ Explain about each input parameter files and parameters used
         ├── operationalC.json
         └── packageC.json
 ```
+
+## Running GreenFPGA
+ 
  <img src="images/asic_fpga_app.png" alt="drawing" width="600"/> 
+
+## Outputs
 
 Add result runs 
 
