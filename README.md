@@ -158,7 +158,7 @@ Total     CFP : 1.438593e+09
 -------------------------
 ```
 
-Below figure shows some results from paper for some sweeps and exploration for a DNN test case example.
+The variation in CFP for some parameter sweep exploration is shown for a DNN test case. 
 
  <img src="images/dnn.png" alt="drawing" width="600"/> 
 
