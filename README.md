@@ -163,7 +163,7 @@ Below figure shows some results from paper for some sweeps and exploration for a
  <img src="images/dnn.png" alt="drawing" width="600"/> 
 
  
- It can be seen the extra embodied CFP that comes with manufacturing FPGA can be amortized across its multiple applcations due to its ability to re-configure and its extended life for an iso-performnace DNN applcication. A savings of 25% CFP can be seen using FPGAs compared to ASIC. 
+The extra embodied CFP that comes with manufacturing FPGA can be amortized across its multiple applcations due to its ability to re-configure and its extended life for an iso-performnace DNN applcication. A savings of 25% CFP can be seen using FPGAs compared to ASIC. 
 
 
  <img src="images/asic_fpga_app.png" alt="drawing" width="600"/> 
