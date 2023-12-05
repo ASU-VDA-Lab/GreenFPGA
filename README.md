@@ -69,18 +69,16 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
 GreenFPGA requires the following: 
 
 ```
-CHETAN CHECK THIS 
 - python 3.8 
 - pip 20.0.2
 - python3.8-venv
 ```
 
-Additionally, please refer steps below that gives instructrions in installing the packges inside requirements.txt in a virtual environment. 
+Additionally, please refer steps below that provide instructions to install the packages inside requirements.txt in a virtual environment. 
 
 ### Steps to install with bash
 
 ```
-CHETAN CHECK THIS 
 git clone https://github.com/ASU-VDA-Lab/GreenFPGA.git
 cd GreenFPGA
 python3 -m venv greenfpga
@@ -90,14 +88,14 @@ pip3 install -r requirements.txt
 
 
 ## Key parameters
-GreenFPGA uses input parameters from the json files under the test_examples and computes the CFP for multiple scenarious. 
+GreenFPGA uses input parameters from the JSON files under the test_examples and computes the CFP for multiple scenarios. 
 
 ### Specification Parameters 
-The architecture and other important specification parameters of the FPGA or the ASIC are added into the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The area of the design, power of the design, num of parts that is manufactured (Volume), lifetime of the evaluation, and based on the type of experiment and type of chip that is analyzed, number of application and number of designs are provided as input in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
+The architecture and other important specification parameters of the FPGA or the ASIC are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The area of the design, power of the design, number of parts that are manufactured (Volume), lifetime of the evaluation, and based on the type of experiment and type of chip that is analyzed, number of applications and number of designs are provided as input in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
 
 The [node_list.txt](./test_example/TPU/node_list.txt) comprises the technology node associated with the design that needs to be analyzed. 
 
-Remaining parameters regarding the design CFP, Application-development CFP, EOL CFP, are all provided in [green_fpga_param.json](./test_example/TPU/green_fpga_param.json) based on user preferences. 
+The remaining parameters regarding the design CFP, application-development CFP, EOL CFP, are all provided in [green_fpga_param.json](./test_example/TPU/green_fpga_param.json) based on user preferences. 
 
 ```     
    ├── fpga_spec.json
@@ -105,11 +103,11 @@ Remaining parameters regarding the design CFP, Application-development CFP, EOL 
    └── green_fpga_param.json
 ```
 
-GreenFPGA tool can also accepet parameters from the command line, and below are some of the main parameters that could be used to help sweep and analyze the variations in embodied and operational CFP.  
+GreenFPGA tool can also accept parameters from the command line and below are some of the main parameters that could be used to help sweep and analyze the variations in embodied and operational CFP.  
 
 
 ```
---design_dir    : Directory for desing analysis 
+--design_dir    : Directory for design analysis 
 --num_app       : Number of application  
 --num_lifetime  : Total evaluation lifetime 
 --num_des       : Number of designs needed to run the experiment
@@ -119,11 +117,11 @@ GreenFPGA tool can also accepet parameters from the command line, and below are 
 --ope_vol       : Opertaion Volume 
 --emb_vol       : Embodied Volume
 ```
-Commands to run GreenFPGA with these parameters are provided in the next seciton below. 
+Commands to run GreenFPGA with these parameters are provided in the next section below. 
 
 
 ## Running GreenFPGA
-Modify the input parameters according to the design and expriment being analyzed. 
+Modify the input parameters according to the design and experiment being analyzed. 
 The command to run GreenFPGA to obtain the breakdown of CFP for the design : 
 ```
 python3 src/ECO_chip.py --design_dir test_example/TPU/
@@ -163,7 +161,7 @@ The variation in CFP for some parameter sweep exploration is shown for a DNN tes
  <img src="images/dnn.png" alt="drawing" width="600"/> 
 
  
-The extra embodied CFP that comes with manufacturing FPGA can be amortized across its multiple applcations due to its ability to re-configure and its extended life for an iso-performnace DNN applcication. A savings of 25% CFP can be seen using FPGAs compared to ASIC. 
+The extra embodied CFP that comes with manufacturing FPGA can be amortized across its multiple applications due to its ability to re-configure and its extended life for an iso-performance DNN application. A savings of 25% CFP can be seen using FPGAs compared to ASIC. 
 
 
  <img src="images/asic_fpga_app.png" alt="drawing" width="600"/> 
@@ -171,7 +169,7 @@ The extra embodied CFP that comes with manufacturing FPGA can be amortized acros
 
 
 ## Citation
-If you find GreenFPGA useful or relavent to your research, please kindly cite our paper:
+If you find GreenFPGA useful or relevant to your research, please kindly cite our paper:
 ```
 @misc{sudarshan2023greenfpga,
       title={GreenFPGA: Evaluating FPGAs as Environmentally Sustainable Computing Solutions}, 
