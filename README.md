@@ -19,15 +19,10 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
 
 ## Directory Structure 
 Add this with links 
-```
 
-- **images**
-  - [asic_fpga_app.png](./images/asic_fpga_app.png)
-  - [dnn.png](./images/dnn.png)
-  - [fpga-ligecycle.png](./images/fpga-lifecycle.png)
-  - [greenfpga-arch.png](./images/greenfga-arch.png)
-- [LICENSE](.LICENSE)
-- [README.md](README.md)
+
+
+
 - **src/**
   - [CO2_func.py](./src/CO2_func.py)
   - [ECO_chip.py](./src/ECO_chip.py)
@@ -37,6 +32,8 @@ Add this with links
   - [cpa_scaling.json](./tech_params/cpa_scaling.json)
   - [defect_density.json](./tech_params/defect_density.json)
   - [dyn_pwr_scaling.json](./tech_params/dyn_pwr_scaling.json)
+- [LICENSE](.LICENSE)
+- [README.md](README.md)
 - **test_example**
   - **Agilex**
     - [fpga_spec.json](./test_example/Agilex/fpga_spec.json)
@@ -62,12 +59,16 @@ Add this with links
     - [fpga_spec.json](./test_example/TPU/fpga_spec.json)
     - [green_fpga_param.json](./test_example/TPU/green_fpga_param.json)
     - [node_list.txt](./test_example/TPU/node_list.txt)
+- **images**
+  - [asic_fpga_app.png](./images/asic_fpga_app.png)
+  - [dnn.png](./images/dnn.png)
+  - [fpga-ligecycle.png](./images/fpga-lifecycle.png)
+  - [greenfpga-arch.png](./images/greenfga-arch.png)
 
 
 
 
-
-
+```
 ├── images
 │   ├── asic_fpga_app.png
 │   ├── dnn.png
