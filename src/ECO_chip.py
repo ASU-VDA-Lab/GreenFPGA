@@ -204,9 +204,7 @@ tsv_pitch =       param_json['tsv_pitch']
 tsv_size =        param_json['tsv_size']
 numBEOL =         param_json['num_beol']
 
-#
 tech_indices2 = [  7,  10,  14,  22,  28]
-print(type(scaling_factors))
 analog_scale = {"area": [ 1, 1, 1, 1.974743319, 2.278875162], "power": [ 1, 1, 1, 1.497716895, 1.749333333]}
 analog_df = pd.DataFrame(data=analog_scale,index=tech_indices2)
 scaling_factors['analog'] = analog_df
@@ -216,11 +214,8 @@ scaling_factors['logic'] = logic_df
 sram_scale = {"area": [1, 1, 1.902779873, 3.757501843, 4.336197791], "power": [1, 1, 1.231707317, 1.844748858,  2.154666667] }
 sram_df = pd.DataFrame(data=sram_scale,index=tech_indices2)
 scaling_factors['sram'] = sram_df
-print(scaling_factors)
-#
 
 
-print(design)
 
 result = calculate_CO2(design,scaling_factors, nodes, 'Test Name',
                        num_iter,package_type=package_type ,Ns=num_prt_mfg,lifetime=lifetime,
