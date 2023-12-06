@@ -91,7 +91,7 @@ pip3 install -r requirements.txt
 GreenFPGA uses input parameters from the JSON files under the test_examples and computes the CFP for multiple scenarios. 
 
 ### Specification Parameters 
-The architecture and other important specification parameters of the FPGA or the ASIC are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The area of the design, power of the design, number of parts that are manufactured (Volume), lifetime of the evaluation, and based on the type of experiment and type of chip that is analyzed, number of applications and number of designs are provided as input in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
+The architecture and other important specification parameters of the FPGA or the ASIC are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The area of the design (mm2), power of the design (W), number of parts that are manufactured (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and type of chip that is analyzed, number of applications and number of designs are provided as input in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
 
 The [node_list.txt](./test_example/TPU/node_list.txt) comprises the technology node associated with the design that needs to be analyzed. 
 
