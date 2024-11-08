@@ -171,12 +171,18 @@ The extra embodied CFP that comes with manufacturing FPGA can be amortized acros
 ## Citation
 If you find GreenFPGA useful or relevant to your research, please kindly cite our paper:
 ```
-@misc{sudarshan2023greenfpga,
-      title={GreenFPGA: Evaluating FPGAs as Environmentally Sustainable Computing Solutions}, 
-      author={Chetan Choppali Sudarshan and Aman Arora and Vidya A. Chhabria},
-      year={2023},
-      eprint={2311.12396},
-      archivePrefix={arXiv},
-      primaryClass={cs.AR}
+@inproceedings{sudarshan2023greenfpga,
+      author = {Choppali Sudarshan, Chetan and Arora, Aman and Chhabria, Vidya A.},
+      title = {GreenFPGA: Evaluating FPGAs as Environmentally Sustainable Computing Solutions},
+      year = {2024},
+      isbn = {9798400706011},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3649329.3657343},
+      doi = {10.1145/3649329.3657343},
+      articleno = {320},
+      numpages = {6},
+      location = {San Francisco, CA, USA},
+      series = {DAC '24}
 }
 ```
