@@ -111,6 +111,31 @@ def end_cfp(cpa_dis_p_Ton, cpa_rcy_p_Ton, dis_frac, weight_p_die):
     return eol_cfp
 
 ###############################################
+#Ctesting CFP 
+
+def testing_cfp(test_time,app_vol,num_slots,overhead_time,ate_power,Carbon_per_kWh):
+    num_runs = app_vol/num_slots
+    tot_test_time = num_runs*test_time + overhead_time #in sec
+    tot_test_time = tot_test_time/3600 #in hrs
+    tot_energy = ate_power*tot_test_time/1000
+    tot_test_carbon = Carbon_per_kWh * tot_energy
+    
+    
+    test_carbon_per_unit = tot_test_carbon/app_vol
+    print("Testing CFP debug")
+    print("Ctest_Total",tot_test_carbon)
+    print("Ctest_per unit",test_carbon_per_unit)
+    return test_carbon_per_unit
+
+###############################################
+#Cmemory CFP
+def memory_cfp(memory_capacity, mem_cfpa):
+    #Here mem_cfpa is in gms, and its obtained from ACT https://github.com/facebookresearch/ACT/blob/main/dram/dram_hynix.json 
+    #Extrapolated for next tech node to be 40g/GB & 20g/GB more details in OneNote
+    memory_carbon_per_unit = memory_capacity*mem_cfpa
+    return memory_carbon_per_unit
+
+###############################################
 #TODO : Remove comments 
 
 
@@ -202,7 +227,7 @@ def calculate_CO2(design, scaling_factors, techs, design_name='', num_iter=90, p
                   tsv_size = 0.005, num_beol = 8,  Na = 5, t_app_fe = 2.5, t_app_be = 1, Nt = 1,
                   t_app_config = 0, app_Carbon_per_kWh = 700, Num_core = 8, Pc = 10,
                   rcy_frac = 0, rcy_cpa_frac = 0.4 , cpa_dis_ton = 390, cpa_rcy_ton = 790, dis_frac = 1, die_weight = 2,
-                  energy_pp_yr = 0.4625,tot_emp = 16000, gate_sc = 1
+                  energy_pp_yr = 0.4625,tot_emp = 16000, gate_sc = 1, memory_cap = 16
                  ):
     #num_iter = 90
     
@@ -254,22 +279,27 @@ def calculate_CO2(design, scaling_factors, techs, design_name='', num_iter=90, p
     eol_c = end_cfp(cpa_dis_p_Ton=cpa_dis_ton, cpa_rcy_p_Ton=cpa_rcy_ton, dis_frac=dis_frac, weight_p_die=die_weight)
     
      
-
+    #Testing CFP
+    test_c = testing_cfp(test_time=5,app_vol=Ns,num_slots=24,overhead_time=120,ate_power=800,Carbon_per_kWh=carbon_per_kWh)   
+    #Memory CFP
+    mem_c = memory_cfp(memory_capacity=memory_cap,mem_cfpa=40)
     
     if not return_ap:
-        return carbon, design_carbon, total_carbon, op_carbon, app_dev_c, eol_c
+        return carbon, design_carbon, total_carbon, op_carbon, app_dev_c, eol_c, test_c, mem_c
     else:
-        return carbon, design_carbon, total_carbon, op_carbon, app_dev_c, eol_c, areas, powers
+        return carbon, design_carbon, total_carbon, op_carbon, app_dev_c, eol_c, test_c, mem_c, areas, powers
     
 
 ###################
 
-def total_cfp_gen(num_des,des_c_pu,mfg_c_pu,n_fpga,vol,eol_c_pu,ope_c_pu,app_c_tot,dc):
+def total_cfp_gen(num_des,des_c_pu,mfg_c_pu,n_fpga,vol,eol_c_pu,ope_c_pu,app_c_tot,dc,test_c_pu,mem_c_pu):
     design_cfp_total = num_des*des_c_pu
     mfg_cfp_total = n_fpga*(mfg_c_pu*num_des*vol)
     eol_cfp_total = n_fpga*(eol_c_pu*num_des*vol)
     ope_cfp_total = (n_fpga*(ope_c_pu*vol))*dc
     app_cfp_total = app_c_tot
-    return design_cfp_total,mfg_cfp_total,eol_cfp_total,ope_cfp_total,app_cfp_total
+    test_cfp_total = n_fpga*(test_c_pu*num_des*vol)
+    memory_cfp_total = n_fpga*(mem_c_pu*num_des*vol)
+    return design_cfp_total,mfg_cfp_total,eol_cfp_total,ope_cfp_total,app_cfp_total,test_cfp_total,memory_cfp_total
 
 ###################

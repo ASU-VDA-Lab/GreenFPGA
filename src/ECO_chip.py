@@ -66,6 +66,11 @@ parser.add_argument(
         default=None, 
         help='Embodied Volume'
 )
+parser.add_argument(
+        '--mem_cap',
+        default=None, 
+        help='Memory Capacity'
+)
 ################
    
 args = parser.parse_args()
@@ -89,7 +94,8 @@ if args.ope_vol is not None :
     ope_volume = float(args.ope_vol)
 if args.emb_vol is not None :
     emb_volume = int(args.emb_vol)
-
+if args.mem_cap is not None:
+    mem_cap = float(args.mem_cap)
 ##########    
 
 param_json_file = design_dir+'green_fpga_param.json'
@@ -134,7 +140,11 @@ if args.chip_area is not None :
 else :
     design = design
 
-
+#If mem_cap is not defined we will assign memory_cap to be 0
+if args.mem_cap is not None:
+    memory_cap = mem_cap
+else : 
+    memory_cap = 0
 
 if args.power is not None :
     power = chip_power
@@ -225,13 +235,15 @@ result = calculate_CO2(design,scaling_factors, nodes, 'Test Name',
                        Na = num_app, t_app_fe = FE_dev_time, t_app_be = BE_dev_time, Nt = num_fpga_types,
                        t_app_config = config_time, app_Carbon_per_kWh = app_Carbon_per_kWh, Num_core = num_core,
                        Pc = cpu_pow_p_core, rcy_frac = recycle_frac, rcy_cpa_frac = recycle_cpa_frac,
-                       energy_pp_yr=energy_pp_yr,tot_emp=total_emp,gate_sc=gate_scale)
+                       energy_pp_yr=energy_pp_yr,tot_emp=total_emp,gate_sc=gate_scale,memory_cap=memory_cap)
 
 cdes = result[1] #Using from CO2.py 
 cmfg = result[0].sum(axis=1)
 ceol = result[5]
 cope = result[3].sum(axis=1)
 capp = result[4]
+ctest = result[6]
+cmem = result[7]
 
 
 #Converting to Kgs
@@ -240,14 +252,17 @@ cmfg = cmfg.iloc[0]/1000
 ceol = ceol/1000
 cope = cope.iloc[0]/1000
 capp = capp/1000
+ctest = ctest/1000
+cmem = cmem/1000
+print(ctest)
 
-des_c,mfg_c,eol_c,ope_c,app_c = total_cfp_gen(num_des=num_des,des_c_pu=cdes,mfg_c_pu=cmfg,n_fpga=N_fpga,
-                                              vol=num_prt_mfg,eol_c_pu=ceol,ope_c_pu=cope,app_c_tot=capp,dc=dc)
+des_c,mfg_c,eol_c,ope_c,app_c,test_c,mem_c = total_cfp_gen(num_des=num_des,des_c_pu=cdes,mfg_c_pu=cmfg,n_fpga=N_fpga,
+                                              vol=num_prt_mfg,eol_c_pu=ceol,ope_c_pu=cope,app_c_tot=capp,dc=dc,test_c_pu=ctest,mem_c_pu=cmem)
 
     
     
 #print(" Total CFP des:"+str(num_des)+"_app:"+str(num_app)+"_life:"+str(lifetime)+"_power:"+str(power)+"_area"+str(design.area.values.sum())+" Des mfg eol ope app")
-emb_c = des_c+mfg_c+eol_c+app_c
+emb_c = des_c+mfg_c+eol_c+app_c+test_c+mem_c
 tot=emb_c+ope_c
     
 print("-------------------------")
@@ -256,6 +271,8 @@ print(f"Mfg       CFP : {mfg_c:e}")
 print(f"EOL       CFP : {eol_c:e}")
 print(f"Operation CFP : {ope_c:e}")
 print(f"App Dev   CFP : {app_c:e}")
+print(f"Testing   CFP : {test_c:e}")
+print(f"Memory    CFP : {mem_c:e}")
 print("-------------------------")
 print(f"Embodied  CFP : {emb_c:e}")
 print(f"Operation CFP : {ope_c:e}")
