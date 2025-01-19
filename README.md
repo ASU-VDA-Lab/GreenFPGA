@@ -2,9 +2,9 @@
 
 Tool to evaluate the carbon footprint of FPGA-based computing across its lifetime. The tool can also perform comparisons with ASIC counterpart considering differnt aspects such as manufacturing, recycling, disposal, reconfigurability (reuse), operation and design. The sustainable benifits of FPGA compared to ASIC is shown in this work.
 
- <img src="images/fpga-lifecycle.png" alt="drawing" width="600"/> 
+ <img src="images/greenfpga-lca.png" alt="drawing" width="600"/> 
 
- <img src="images/greenfga-arch.png" alt="drawing" width="600"/> 
+ <img src="images/greenfpga-arch.png" alt="drawing" width="600"/> 
 
 
 ## Abstract
