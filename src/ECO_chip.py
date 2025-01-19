@@ -37,6 +37,11 @@ parser.add_argument(
         help='Lifetime of the chip'
 )
 parser.add_argument(
+        '--dc_val',
+        default=None,
+        help='DC Value'
+)
+parser.add_argument(
         '--num_des',
         default=None, 
         help='Number of designs'
@@ -57,6 +62,11 @@ parser.add_argument(
         help='Chip area'
 )
 parser.add_argument(
+        '--node',
+        default=None,
+        help='node of the design'
+)
+parser.add_argument(
         '--ope_vol',
         default=None, 
         help='Operation Volume'
@@ -71,6 +81,12 @@ parser.add_argument(
         default=None, 
         help='Memory Capacity'
 )
+parser.add_argument(
+        '--uncertain_off',
+        default=None,
+        required=False,
+        help='Uncertain off'
+)
 ################
    
 args = parser.parse_args()
@@ -82,12 +98,16 @@ if args.num_app is not None :
 if args.num_lifetime is not None :
     NUM_Life = float(args.num_lifetime)
     NUM_Life = NUM_Life*24*365 #in hours
+if args.dc_val is not None :
+    NUM_DC = float(args.dc_val)
 if args.nfpga is not None:
     NUM_fpga = int(args.nfpga)
 if args.power is not None:
     chip_power = float(args.power)
 if args.chip_area is not None:
-    chip_area = int(args.chip_area)
+    chip_area = float(args.chip_area)
+if args.node is not None:
+    node_val = int(args.node)
 if args.num_des is not None :
     NUM_des = int(args.num_des)
 if args.ope_vol is not None :
@@ -204,8 +224,11 @@ if args.num_lifetime is not None :
     lifetime = NUM_Life
 else :
     lifetime = fpga_spec_json['lifetime']
-dc = param_json['dc']
-    
+
+if args.dc_val is not None:
+    dc = NUM_DC
+else :
+    dc = param_json['dc']    
     
 package_type =    param_json['pkg_type']
 interposer_node = param_json['interposer_node']
@@ -227,7 +250,15 @@ sram_scale = {"area": [1, 1, 1.902779873, 3.757501843, 4.336197791], "power": [1
 sram_df = pd.DataFrame(data=sram_scale,index=tech_indices2)
 scaling_factors['sram'] = sram_df
 
-
+if args.uncertain_off:
+    print("Debug")
+    print(scaling_factors['cpa'])
+    print(scaling_factors['defect_den'])
+    print("carbon_per_kWh",carbon_per_kWh)
+else:
+    scaling_factors['cpa'].loc[10,'cpa'] = 13.27 #Obtained from most probable values ### See this file /home/cchoppal/chetan/PhD_Projects/fpga_sustainability/JournalGreenFPGA-Computers-git/GreenFPGA2/src/uncertainity/test_uncertainity.ipynb 
+    scaling_factors['defect_den'].loc[10,'defect_density'] = 0.12 #Obtained from most probable values 
+    carbon_per_kWh = 651 #Obtained from most probable values    
 
 result = calculate_CO2(design,scaling_factors, nodes, 'Test Name',
                        num_iter,package_type=package_type ,Ns=num_prt_mfg,lifetime=lifetime,
