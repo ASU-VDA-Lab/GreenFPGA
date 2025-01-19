@@ -1,0 +1,1 @@
+../tech_scaling.py
