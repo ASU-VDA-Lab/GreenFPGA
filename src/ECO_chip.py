@@ -163,6 +163,7 @@ recycle_frac = param_json['recycle_frac']
 recycle_cpa_frac = param_json['recycle_cpa_frac']
 total_emp = param_json['tot_emp']
 gate_scale = param_json['gate_scale']
+project_time = param_json['project_time']
 energy_pp_yr = param_json['epp_yr']
 
 if args.num_app is not None :
@@ -178,8 +179,9 @@ else :
 
 app_size = param_json['App_size']
 fpga_cap = param_json['Fpga_cap']
-FE_dev_time = param_json['FE_dev_time']
-BE_dev_time = param_json['BE_dev_time']
+sw_dev_time = param_json['sw_dev_time']
+comp_dev_time = param_json['comp_dev_time']
+reg_dev_time  = param_json['reg_dev_time']
 num_fpga_types = param_json['num_fpga_types']
 config_time = param_json['config_time']
 cpu_pow_p_core = param_json['CPU_power_per_core']
@@ -232,10 +234,10 @@ result = calculate_CO2(design,scaling_factors, nodes, 'Test Name',
                        carbon_per_kWh=carbon_per_kWh,transistors_per_gate=transistors_per_gate,
                        power_per_core=power_per_core,interposer_node = interposer_node, rdl_layer=rdl_layer, emib_layers=emib_layers,
                        emib_pitch=emib_pitch, tsv_pitch=tsv_pitch, tsv_size=tsv_size, num_beol=numBEOL,
-                       Na = num_app, t_app_fe = FE_dev_time, t_app_be = BE_dev_time, Nt = num_fpga_types,
+                       Na = num_app, t_app_sw = sw_dev_time, t_app_comp = comp_dev_time, t_app_reg = reg_dev_time, Nt = num_fpga_types,
                        t_app_config = config_time, app_Carbon_per_kWh = app_Carbon_per_kWh, Num_core = num_core,
                        Pc = cpu_pow_p_core, rcy_frac = recycle_frac, rcy_cpa_frac = recycle_cpa_frac,
-                       energy_pp_yr=energy_pp_yr,tot_emp=total_emp,gate_sc=gate_scale,memory_cap=memory_cap)
+                       energy_pp_yr=energy_pp_yr,tot_emp=total_emp,gate_sc=gate_scale,memory_cap=memory_cap,proj_time=project_time)
 
 cdes = result[1] #Using from CO2.py 
 cmfg = result[0].sum(axis=1)

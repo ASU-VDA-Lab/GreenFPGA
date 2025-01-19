@@ -197,8 +197,8 @@ def Si_wastage_accurate_t(wafer_dia,chip_area,techs,cpa_factors):
 ###############################################
 #Programming CFP 
 
-def app_cfp(power_per_core,num_core,Carbon_per_kWh,Na,Ns,fe_time,be_time,config_time):
-    prog_time = ((Na*(fe_time+be_time)) + (Ns*config_time)) * 24*30 #Converting to hrs from months 
+def app_cfp(power_per_core,num_core,Carbon_per_kWh,Na,Ns,sw_time,comp_time,reg_time,config_time):
+    prog_time = ((Na*(sw_time+comp_time+reg_time)) + (Ns*config_time)) * 24*30 #Converting to hrs from months 
     program_energy = power_per_core*num_core*prog_time/1000 #in kWh
     prog_cfp = program_energy*Carbon_per_kWh
     return prog_cfp
@@ -208,9 +208,9 @@ def app_cfp(power_per_core,num_core,Carbon_per_kWh,Na,Ns,fe_time,be_time,config_
 ###############################################
 #Design CFP 
 
-def design_cfp_new(e_per_person_per_yr, total_employee, c_p_kWh, gate_scale):
+def design_cfp_new(e_per_person_per_yr, total_employee, c_p_kWh, gate_scale, proj_time):
     total_cfp_p_per = (e_per_person_per_yr*1000*700)
-    total_co2 = total_cfp_p_per*total_employee*gate_scale #1000 to convert MWh to kWh
+    total_co2 = total_cfp_p_per*total_employee*gate_scale*proj_time #1000 to convert MWh to kWh
     new_des_cfp = total_co2
     #print("total_cfp_p_per",total_cfp_p_per)
     #print("total_co2",total_co2)
@@ -224,10 +224,10 @@ def calculate_CO2(design, scaling_factors, techs, design_name='', num_iter=90, p
                   lifetime = 2*365*24, activity=[0.2, 0.667, 0.1], Ns = 1e5, Nc=None, plot=False,package_factor=1,
                   return_ap=False, in_combinations=None, transistors_per_gate=8, power_per_core=10, carbon_per_kWh=700,
                   interposer_node=65, rdl_layer = 6, emib_layers = 5, emib_pitch=10, tsv_pitch = 0.025,
-                  tsv_size = 0.005, num_beol = 8,  Na = 5, t_app_fe = 2.5, t_app_be = 1, Nt = 1,
+                  tsv_size = 0.005, num_beol = 8,  Na = 5, t_app_sw = 2.5, t_app_comp = 1, t_app_reg = 1, Nt = 1,
                   t_app_config = 0, app_Carbon_per_kWh = 700, Num_core = 8, Pc = 10,
                   rcy_frac = 0, rcy_cpa_frac = 0.4 , cpa_dis_ton = 390, cpa_rcy_ton = 790, dis_frac = 1, die_weight = 2,
-                  energy_pp_yr = 0.4625,tot_emp = 16000, gate_sc = 1, memory_cap = 16
+                  energy_pp_yr = 0.4625,tot_emp = 16000, gate_sc = 1, memory_cap = 16, proj_time = 1
                  ):
     #num_iter = 90
     
@@ -268,10 +268,10 @@ def calculate_CO2(design, scaling_factors, techs, design_name='', num_iter=90, p
    
     #App-dev CFP
     app_dev_c = app_cfp(power_per_core=Pc, num_core=Num_core, Carbon_per_kWh=app_Carbon_per_kWh,
-                        Na=Na,Ns=Ns,fe_time=t_app_fe,be_time=t_app_be,config_time=t_app_config)
+                        Na=Na,Ns=Ns,sw_time=t_app_sw,comp_time=t_app_comp,reg_time=t_app_reg,config_time=t_app_config)
  
     #Des
-    design_carbon = design_cfp_new(energy_pp_yr,tot_emp,carbon_per_kWh,gate_sc)
+    design_carbon = design_cfp_new(energy_pp_yr,tot_emp,carbon_per_kWh,gate_sc,proj_time)
     
     
     
