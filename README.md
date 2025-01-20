@@ -85,11 +85,42 @@ python3 src/ECO_chip.py --design_dir test_example/TPU/ --num_des 1 --num_app 5 -
 python3 src/ECO_chip.py --design_dir test_example/Agilex/ --num_des 3 --num_app 3 --num_lifetime 5 --power 80  --chip_area 450
 ```
 
-To run probabilistic model the source code is present under [probabilistic](./src/uncertainity/) directory. It contains all the functions and code base required to help run the probaiblistic analysis. The code generates the required KDE and other distributions for important parameters accounting for the inherent uncertainities such as spatial, temporal, process-driven and system-driven variations that impact both embodied and opertional carbon footprint (CFP). Below is an example of the KDE for Carbon Intensity variation:
+To execute the probabilistic model, the source code can be found in the [probabilistic](./src/uncertainity/) directory. This directory contains all the necessary functions and resources for running the probabilistic analysis. The code generates the required KDEs and other distributions for key parameters, accounting for inherent uncertainties such as spatial, temporal, process-driven, and system-driven variations that influence both the embodied and operational carbon footprint (CFP). Below is an example of the KDE for Carbon Intensity variation:
 
 <img src="images/kde-ci.png" alt="drawing" width="600"/> 
 
+Unlike ASICs, the extra embodied CFP that occurred during the manufacturing and design of FPGAs, GPUs, and CPUs can be amortized across its multiple applications and lifespan for various uses. For Num App = 1, FPGAs have higher CFP than ASICs since they have larger areas and are less energy efficient compared to ASICs, however the same FPGAs when used for Num App = 7, it can be seen that FPGAs are sustainably efficient compared to ASICs and have amortized the embodied CFP. 
 
+<img src="images/asic-fpga-napp.jpg" alt="drawing" width="600"/> 
+
+
+Below is an example output for a test_example TPU showing the breakdown in Total CFP :
+```
+-------------------------
+Using below files 
+test_example/TPU/green_fpga_param.json
+test_example/TPU/fpga_spec.json
+test_example/TPU/node_list.txt
+-------------------------
+-------------------------
+Design    CFP : 2.590000e+07
+Mfg       CFP : 3.141413e+08
+EOL       CFP : 3.900000e+03
+Operation CFP : 1.098548e+09
+App Dev   CFP : 5.040000e+01
+-------------------------
+Embodied  CFP : 3.400452e+08
+Operation CFP : 1.098548e+09
+-------------------------
+Total     CFP : 1.438593e+09
+-------------------------
+```
+
+GreenFPGA also has the capability to provide a breakdown of embodied and operational CFP, as demonstrated below in a DNN test case comparing ASICs and FPGAs.
+
+<img src="images/dnn.png" alt="drawing" width="600"/> 
+
+The resulting analysis is shown below in the box plot, with variations in CFP values for FPGA and ASIC for each of the entries on the X-axis. 
 
 ## Table of Contents
 
@@ -154,40 +185,16 @@ To run probabilistic model the source code is present under [probabilistic](./sr
 
 
 
-The resulting anaylsis is shown below in the box plot, with variations in CFP values for FPGA and ASIC for each of the entry on the X-axis. 
 
-## Outputs
-Below is an example output for a test_example TPU showing the breakdown in Total CFP :
-```
--------------------------
-Using below files 
-test_example/TPU/green_fpga_param.json
-test_example/TPU/fpga_spec.json
-test_example/TPU/node_list.txt
--------------------------
--------------------------
-Design    CFP : 2.590000e+07
-Mfg       CFP : 3.141413e+08
-EOL       CFP : 3.900000e+03
-Operation CFP : 1.098548e+09
-App Dev   CFP : 5.040000e+01
--------------------------
-Embodied  CFP : 3.400452e+08
-Operation CFP : 1.098548e+09
--------------------------
-Total     CFP : 1.438593e+09
--------------------------
-```
 
-The variation in CFP for some parameter sweep exploration is shown for a DNN test case below. 
 
- <img src="images/dnn.png" alt="drawing" width="600"/> 
+
 
  
-The extra embodied CFP that comes with manufacturing FPGA can be amortized across its multiple applications due to its ability to re-configure and its extended life for an iso-performance DNN application. A savings of 25% CFP can be seen using FPGAs compared to ASIC. 
 
 
- <img src="images/asic_fpga_app.png" alt="drawing" width="600"/> 
+
+
 
 
 
