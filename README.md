@@ -4,10 +4,17 @@ GreenFPGA is a comprehensive framework for estimating the CFP of FPGAs over thei
 
  <img src="images/greenfpga-lca.png" alt="drawing" width="600"/> 
 
+## Table of Contents
 
+-   [Abstract](#abstract)
+-   [Getting started](#getting-started)
+-   [Key parameters](#key-parameters)
+-   [Running GreenFPGA](#running-greenfpga)
+-   [Citation/Bibliography](#citation)
 
 ## Abstract
 Modeling the carbon footprint (CFP) of computing includes both the operational CFP from the use of semiconductor devices and the embodied CFP from their manufacture and design has become essential for sustainability.  Field Programmable Gate Arrays (FPGAs) emerge as promising sustainable platforms due to their reconfigurability, allowing the embodied CFP to be amortized across multiple applications. This work introduces GreenFPGA, a framework for estimating the FPGA’s CFP across the lifespan, considering the uncertainties in CFP modeling. The framework evaluates the lifecycle CFP by accounting for the impacts of design, manufacturing, reconfigurability (reuse), operation, testing, disposal, and recycling. Using the GreenFPGA framework, the work evaluates scenarios where the reconfigurability of FPGAs helps outweigh the embodied and operational CFP costs compared to application-specific integrated circuits (ASICs), graphics processing units (GPUs), and central processing units (CPUs). The work emphasizes the importance of analyzing the CFP across four platforms—FPGA, ASIC, GPU, and CPU—by considering multiple parameters, including lifetime, usage time, volume, and the number of applications.
+
 
 
 ## Getting started
@@ -120,81 +127,13 @@ GreenFPGA also has the capability to provide a breakdown of embodied and operati
 
 <img src="images/dnn.png" alt="drawing" width="600"/> 
 
-The resulting analysis is shown below in the box plot, with variations in CFP values for FPGA and ASIC for each of the entries on the X-axis. 
+GreenFPGA incorporates a probabilistic model that accounts for parameter variations arising from uncertainties, providing a range of values for each device under analysis. Below is a box plot comparing ASIC and FPGA, illustrating the variations in CFP values as the number of applications is swept.
 
-## Table of Contents
+<img src="images/BoxPlot.jpg" alt="drawing" width="600"/> 
 
--   [Directory structure](#directory-structure)
--   [Getting started](#getting-started)
--   [Key parameters](#key-parameters)
--   [Running GreenFPGA](#running-greenfpga)
--   [Outputs](#outputs)
+In the paper, we perform a detailed analysis of the probabilistic model variations compared with the deterministic model. GreenFPGA can also perform sweeps in multiple parameters to observe the heatmap trends; shown below is a heat map analysis for ASIC vs FPGA.
 
-## Directory Structure 
-
-- **src/**
-  - [CO2_func.py](./src/CO2_func.py)
-  - [ECO_chip.py](./src/ECO_chip.py)
-  - [tech_scaling.py](./src/tech_scaling.py)
-- **tech_params**
-  - [beol_feol_scaling.json](./tech_params/beol_feol_scaling.json)
-  - [cpa_scaling.json](./tech_params/cpa_scaling.json)
-  - [defect_density.json](./tech_params/defect_density.json)
-  - [dyn_pwr_scaling.json](./tech_params/dyn_pwr_scaling.json)
-- [README.md](README.md)
-- **test_example**
-  - **Agilex**
-    - [fpga_spec.json](./test_example/Agilex/fpga_spec.json)
-    - [green_fpga_param.json](./test_example/Agilex/green_fpga_param.json)
-    - [node_list.txt](./test_example/Agilex/node_list.txt)
-  - **ASIC_analysis**
-    - [fpga_spec.json](./test_example/ASIC_analysis/fpga_spec.json)
-    - [green_fpga_param.json](./test_example/ASIC_analysis/green_fpga_param.json)
-    - [node_list.txt](./test_example/ASIC_analysis/node_list.txt)
-  - **FPGA_analysis**
-    - [fpga_spec.json](./test_example/FPGA_analysis/fpga_spec.json)
-    - [green_fpga_param.json](./test_example/FPGA_analysis/green_fpga_param.json)
-    - [node_list.txt](./test_example/FPGA_analysis/node_list.txt)
-  - **Moffett**
-    - [fpga_spec.json](./test_example/Moffett/fpga_spec.json)
-    - [green_fpga_param.json](./test_example/Moffett/green_fpga_param.json)
-    - [node_list.txt](./test_example/Moffett/node_list.txt)
-  - **Stratix**
-    - [fpga_spec.json](./test_example/Stratix/fpga_spec.json)
-    - [green_fpga_param.json](./test_example/Stratix/green_fpga_param.json)
-    - [node_list.txt](./test_example/Stratix/node_list.txt)
-  - **TPU**
-    - [fpga_spec.json](./test_example/TPU/fpga_spec.json)
-    - [green_fpga_param.json](./test_example/TPU/green_fpga_param.json)
-    - [node_list.txt](./test_example/TPU/node_list.txt)
-- **images**
-  - [asic_fpga_app.png](./images/asic_fpga_app.png)
-  - [dnn.png](./images/dnn.png)
-  - [fpga-ligecycle.png](./images/fpga-lifecycle.png)
-  - [greenfpga-arch.png](./images/greenfga-arch.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
+<img src="images/asic-v-fpga-HM.png" alt="drawing" width="600"/> 
 
 
 
