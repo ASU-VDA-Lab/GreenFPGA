@@ -1,6 +1,6 @@
 # GreenFPGA
 
-Tool to evaluate the carbon footprint of FPGA-based computing across its lifetime. The tool can also perform comparisons with ASIC counterpart considering differnt aspects such as manufacturing, recycling, disposal, reconfigurability (reuse), operation and design. The sustainable benifits of FPGA compared to ASIC is shown in this work.
+GreenFPGA is a comprehensive framework for estimating the CFP of FPGAs over their lifecycle, considering uncertainties inherent in CFP modeling. The framework evaluates lifecycle CFP by accounting for the impacts of design, manufacturing, reconfigurability (reuse), operation, testing, disposal, and recycling. Using GreenFPGA, we evaluate scenarios in which the reconfigurability of FPGAs offsets embodied and operational CFP costs compared to application-specific integrated circuits (ASICs), graphics processing units (GPUs), and central processing units (CPUs). Additionally, we emphasize the importance of analyzing CFP across four platforms—FPGA, ASIC, GPU, and CPU while incorporating variables such as lifetime, usage time, volume, and number of applications. 
 
  <img src="images/greenfpga-lca.png" alt="drawing" width="600"/> 
 
@@ -91,7 +91,8 @@ pip3 install -r requirements.txt
 GreenFPGA uses input parameters from the JSON files under the test_examples and computes the CFP for multiple scenarios. 
 
 ### Specification Parameters 
-The architecture and other important specification parameters of the FPGA or the ASIC are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The area of the design (mm2), power of the design (W), number of parts that are manufactured (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and type of chip that is analyzed, number of applications and number of designs are provided as input in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
+All the important specification parameters of the FPGA, ASIC, GPU, and CPU are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The file contains important parameters such as area of the design (mm2), power of the design (W), number of manufactured parts (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and device type that we are analyzing, number of applications and number of designs are provieded as inputs in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
+
 
 The [node_list.txt](./test_example/TPU/node_list.txt) comprises the technology node associated with the design that needs to be analyzed. 
 
@@ -110,12 +111,16 @@ GreenFPGA tool can also accept parameters from the command line and below are so
 --design_dir    : Directory for design analysis 
 --num_app       : Number of application  
 --num_lifetime  : Total evaluation lifetime 
+--node          : Tech node of analysis 
+--mem_cap       : Memory capacity 
+--dc_val        : DC Value
 --num_des       : Number of designs needed to run the experiment
 --nfpga         : Number of FPGAs, Appsize/fpga_capacity 
 --power         : Power of the device under analysis
 --chip_area     : Area of the device 
 --ope_vol       : Opertaion Volume 
 --emb_vol       : Embodied Volume
+--uncertain_off : Uncertianity analysis off 
 ```
 Commands to run GreenFPGA with these parameters are provided in the next section below. 
 
@@ -132,6 +137,11 @@ python3 src/ECO_chip.py --design_dir test_example/TPU/ --num_des 1 --num_app 5 -
 python3 src/ECO_chip.py --design_dir test_example/Agilex/ --num_des 3 --num_app 3 --num_lifetime 5 --power 80  --chip_area 450
 ```
 
+To run probabilistic model the source code is present under [probabilistic](./src/uncertainity/) directory. It contains all the functions and code base required to help run the probaiblistic analysis. The code generates the required KDE and other distributions for important parameters that are uncertian in nature. 
+
+<img src="images/kde-ci.png" alt="drawing" width="600"/> 
+
+The resulting anaylsis is shown below in the box plot, with variations in CFP values for FPGA and ASIC for each of the entry on the X-axis. 
 
 ## Outputs
 Below is an example output for a test_example TPU showing the breakdown in Total CFP :
