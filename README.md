@@ -4,10 +4,92 @@ GreenFPGA is a comprehensive framework for estimating the CFP of FPGAs over thei
 
  <img src="images/greenfpga-lca.png" alt="drawing" width="600"/> 
 
- <img src="images/greenfpga-arch.png" alt="drawing" width="600"/> 
 
 
 ## Abstract
+Modeling the carbon footprint (CFP) of computing includes both the operational CFP from the use of semiconductor devices and the embodied CFP from their manufacture and design has become essential for sustainability.  Field Programmable Gate Arrays (FPGAs) emerge as promising sustainable platforms due to their reconfigurability, allowing the embodied CFP to be amortized across multiple applications. This work introduces GreenFPGA, a framework for estimating the FPGA’s CFP across the lifespan, considering the uncertainties in CFP modeling. The framework evaluates the lifecycle CFP by accounting for the impacts of design, manufacturing, reconfigurability (reuse), operation, testing, disposal, and recycling. Using the GreenFPGA framework, the work evaluates scenarios where the reconfigurability of FPGAs helps outweigh the embodied and operational CFP costs compared to application-specific integrated circuits (ASICs), graphics processing units (GPUs), and central processing units (CPUs). The work emphasizes the importance of analyzing the CFP across four platforms—FPGA, ASIC, GPU, and CPU—by considering multiple parameters, including lifetime, usage time, volume, and the number of applications.
+
+
+## Getting started
+
+### Setup guide
+
+GreenFPGA requires the following: 
+
+```
+- python 3.8 
+- pip 20.0.2
+- python3.8-venv
+```
+
+Additionally, please refer steps below that provide instructions to install the packages inside requirements.txt in a virtual environment. 
+
+### Steps to install with bash
+
+```
+git clone https://github.com/ASU-VDA-Lab/GreenFPGA.git
+cd GreenFPGA
+python3 -m venv greenfpga
+source greenfpga/bin/activate
+pip3 install -r requirements.txt
+```
+
+## Key parameters
+GreenFPGA uses input parameters from the JSON files under the test_examples and computes the CFP for multiple scenarios and multiple device platforms (FPGA, ASIC, GPU, and CPU).  
+
+ <img src="images/greenfpga-arch.png" alt="drawing" width="600"/> 
+
+### Specification Parameters 
+All the important specification parameters of the FPGA, ASIC, GPU, and CPU are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The file contains important parameters such as area of the design (mm2), power of the design (W), number of manufactured parts (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and device type that we are analyzing, number of applications and number of designs are provieded as inputs in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
+
+
+The [node_list.txt](./test_example/TPU/node_list.txt) comprises the technology node associated with the design that needs to be analyzed. We have added example for each of the platforms (ASIC, FPGA, GPU, and CPU) under [test_example](./test_example/) directory. 
+
+The remaining parameters regarding the design CFP, application-development CFP, EOL CFP, memory CFP, and testing CFP are all provided in [green_fpga_param.json](./test_example/TPU/green_fpga_param.json) based on user preferences. 
+
+```     
+   ├── fpga_spec.json
+   ├── node_list.txt
+   └── green_fpga_param.json
+```
+
+GreenFPGA tool can also accept parameters from the command line. Below are some of the main parameters that could be used to help sweep and analyze the variations in embodied and operational CFP.  
+
+
+```
+--design_dir    : Directory for design analysis 
+--num_app       : Number of application  
+--num_lifetime  : Total evaluation lifetime 
+--node          : Tech node of analysis 
+--mem_cap       : Memory capacity 
+--dc_val        : DC Value
+--num_des       : Number of designs needed to run the experiment
+--nfpga         : Number of FPGAs, Appsize/fpga_capacity 
+--power         : Power of the device under analysis
+--chip_area     : Area of the device 
+--ope_vol       : Opertaion Volume 
+--emb_vol       : Embodied Volume
+--uncertain_off : Uncertianity analysis off 
+```
+Commands to run GreenFPGA with these parameters are provided in the next section below. 
+
+## Running GreenFPGA
+Modify the input parameters according to the design and experiment being analyzed. 
+The command to run GreenFPGA to obtain the breakdown of CFP for the design : 
+```
+python3 src/ECO_chip.py --design_dir test_example/TPU/
+```
+To run the analysis using command line parameters : 
+```
+python3 src/ECO_chip.py --design_dir test_example/TPU/ --num_des 1 --num_app 5 --num_lifetime 8 --power 150 --chip_area 650
+python3 src/ECO_chip.py --design_dir test_example/Agilex/ --num_des 3 --num_app 3 --num_lifetime 5 --power 80  --chip_area 450
+```
+
+To run probabilistic model the source code is present under [probabilistic](./src/uncertainity/) directory. It contains all the functions and code base required to help run the probaiblistic analysis. The code generates the required KDE and other distributions for important parameters accounting for the inherent uncertainities such as spatial, temporal, process-driven and system-driven variations that impact both embodied and opertional carbon footprint (CFP). Below is an example of the KDE for Carbon Intensity variation:
+
+<img src="images/kde-ci.png" alt="drawing" width="600"/> 
+
+
 
 ## Table of Contents
 
@@ -62,84 +144,15 @@ GreenFPGA is a comprehensive framework for estimating the CFP of FPGAs over thei
 
 
 
-## Getting started
-
-### Setup guide
-
-GreenFPGA requires the following: 
-
-```
-- python 3.8 
-- pip 20.0.2
-- python3.8-venv
-```
-
-Additionally, please refer steps below that provide instructions to install the packages inside requirements.txt in a virtual environment. 
-
-### Steps to install with bash
-
-```
-git clone https://github.com/ASU-VDA-Lab/GreenFPGA.git
-cd GreenFPGA
-python3 -m venv greenfpga
-source greenfpga/bin/activate
-pip3 install -r requirements.txt
-```
 
 
-## Key parameters
-GreenFPGA uses input parameters from the JSON files under the test_examples and computes the CFP for multiple scenarios. 
-
-### Specification Parameters 
-All the important specification parameters of the FPGA, ASIC, GPU, and CPU are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The file contains important parameters such as area of the design (mm2), power of the design (W), number of manufactured parts (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and device type that we are analyzing, number of applications and number of designs are provieded as inputs in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
 
 
-The [node_list.txt](./test_example/TPU/node_list.txt) comprises the technology node associated with the design that needs to be analyzed. 
-
-The remaining parameters regarding the design CFP, application-development CFP, EOL CFP, are all provided in [green_fpga_param.json](./test_example/TPU/green_fpga_param.json) based on user preferences. 
-
-```     
-   ├── fpga_spec.json
-   ├── node_list.txt
-   └── green_fpga_param.json
-```
-
-GreenFPGA tool can also accept parameters from the command line and below are some of the main parameters that could be used to help sweep and analyze the variations in embodied and operational CFP.  
 
 
-```
---design_dir    : Directory for design analysis 
---num_app       : Number of application  
---num_lifetime  : Total evaluation lifetime 
---node          : Tech node of analysis 
---mem_cap       : Memory capacity 
---dc_val        : DC Value
---num_des       : Number of designs needed to run the experiment
---nfpga         : Number of FPGAs, Appsize/fpga_capacity 
---power         : Power of the device under analysis
---chip_area     : Area of the device 
---ope_vol       : Opertaion Volume 
---emb_vol       : Embodied Volume
---uncertain_off : Uncertianity analysis off 
-```
-Commands to run GreenFPGA with these parameters are provided in the next section below. 
 
 
-## Running GreenFPGA
-Modify the input parameters according to the design and experiment being analyzed. 
-The command to run GreenFPGA to obtain the breakdown of CFP for the design : 
-```
-python3 src/ECO_chip.py --design_dir test_example/TPU/
-```
-To run the analysis using command line parameters : 
-```
-python3 src/ECO_chip.py --design_dir test_example/TPU/ --num_des 1 --num_app 5 --num_lifetime 8 --power 150 --chip_area 650
-python3 src/ECO_chip.py --design_dir test_example/Agilex/ --num_des 3 --num_app 3 --num_lifetime 5 --power 80  --chip_area 450
-```
 
-To run probabilistic model the source code is present under [probabilistic](./src/uncertainity/) directory. It contains all the functions and code base required to help run the probaiblistic analysis. The code generates the required KDE and other distributions for important parameters that are uncertian in nature. 
-
-<img src="images/kde-ci.png" alt="drawing" width="600"/> 
 
 The resulting anaylsis is shown below in the box plot, with variations in CFP values for FPGA and ASIC for each of the entry on the X-axis. 
 
