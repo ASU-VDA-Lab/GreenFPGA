@@ -31,27 +31,27 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
 - [README.md](README.md)
 - **test_example**
   - **Agilex**
-    - [fpga_spec.json](./test_example/Agilex/fpga_spec.json)
+    - [spec.json](./test_example/Agilex/spec.json)
     - [green_fpga_param.json](./test_example/Agilex/green_fpga_param.json)
     - [node_list.txt](./test_example/Agilex/node_list.txt)
   - **ASIC_analysis**
-    - [fpga_spec.json](./test_example/ASIC_analysis/fpga_spec.json)
+    - [spec.json](./test_example/ASIC_analysis/spec.json)
     - [green_fpga_param.json](./test_example/ASIC_analysis/green_fpga_param.json)
     - [node_list.txt](./test_example/ASIC_analysis/node_list.txt)
   - **FPGA_analysis**
-    - [fpga_spec.json](./test_example/FPGA_analysis/fpga_spec.json)
+    - [spec.json](./test_example/FPGA_analysis/spec.json)
     - [green_fpga_param.json](./test_example/FPGA_analysis/green_fpga_param.json)
     - [node_list.txt](./test_example/FPGA_analysis/node_list.txt)
   - **Moffett**
-    - [fpga_spec.json](./test_example/Moffett/fpga_spec.json)
+    - [spec.json](./test_example/Moffett/spec.json)
     - [green_fpga_param.json](./test_example/Moffett/green_fpga_param.json)
     - [node_list.txt](./test_example/Moffett/node_list.txt)
   - **Stratix**
-    - [fpga_spec.json](./test_example/Stratix/fpga_spec.json)
+    - [spec.json](./test_example/Stratix/spec.json)
     - [green_fpga_param.json](./test_example/Stratix/green_fpga_param.json)
     - [node_list.txt](./test_example/Stratix/node_list.txt)
   - **TPU**
-    - [fpga_spec.json](./test_example/TPU/fpga_spec.json)
+    - [spec.json](./test_example/TPU/spec.json)
     - [green_fpga_param.json](./test_example/TPU/green_fpga_param.json)
     - [node_list.txt](./test_example/TPU/node_list.txt)
 - **images**
@@ -91,14 +91,14 @@ pip3 install -r requirements.txt
 GreenFPGA uses input parameters from the JSON files under the test_examples and computes the CFP for multiple scenarios. 
 
 ### Specification Parameters 
-The architecture and other important specification parameters of the FPGA or the ASIC are added to the [fpga_spec.json](./test_example/Agilex/fpga_spec.json). The area of the design (mm2), power of the design (W), number of parts that are manufactured (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and type of chip that is analyzed, number of applications and number of designs are provided as input in the [fpga_spec.json](./test_example/Agilex/fpga_spec.json).
+The architecture and other important specification parameters of the FPGA or the ASIC are added to the [spec.json](./test_example/Agilex/spec.json). The area of the design (mm2), power of the design (W), number of parts that are manufactured (Volume), lifetime of the evaluation (hrs), and based on the type of experiment and type of chip that is analyzed, number of applications and number of designs are provided as input in the [spec.json](./test_example/Agilex/spec.json).
 
 The [node_list.txt](./test_example/TPU/node_list.txt) comprises the technology node associated with the design that needs to be analyzed. 
 
 The remaining parameters regarding the design CFP, application-development CFP, EOL CFP, are all provided in [green_fpga_param.json](./test_example/TPU/green_fpga_param.json) based on user preferences. 
 
 ```     
-   ├── fpga_spec.json
+   ├── spec.json
    ├── node_list.txt
    └── green_fpga_param.json
 ```
@@ -139,7 +139,7 @@ Below is an example output for a test_example TPU showing the breakdown in Total
 -------------------------
 Using below files 
 test_example/TPU/green_fpga_param.json
-test_example/TPU/fpga_spec.json
+test_example/TPU/spec.json
 test_example/TPU/node_list.txt
 -------------------------
 -------------------------

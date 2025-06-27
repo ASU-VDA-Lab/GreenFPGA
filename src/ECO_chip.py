@@ -93,7 +93,7 @@ if args.emb_vol is not None :
 ##########    
 
 param_json_file = design_dir+'green_fpga_param.json'
-fpga_spec_file = design_dir+'fpga_spec.json'
+fpga_spec_file = design_dir+'spec.json'
 node_list_file = design_dir+'node_list.txt'
 print("-------------------------")
 print("Using below files ")
