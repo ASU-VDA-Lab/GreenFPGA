@@ -21,7 +21,7 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
 
 - **src/**
   - [CO2_func.py](./src/CO2_func.py)
-  - [ECO_chip.py](./src/ECO_chip.py)
+  - [greenfpga.py](./src/greenfpga.py)
   - [tech_scaling.py](./src/tech_scaling.py)
 - **tech_params**
   - [beol_feol_scaling.json](./tech_params/beol_feol_scaling.json)
@@ -124,12 +124,12 @@ Commands to run GreenFPGA with these parameters are provided in the next section
 Modify the input parameters according to the design and experiment being analyzed. 
 The command to run GreenFPGA to obtain the breakdown of CFP for the design : 
 ```
-python3 src/ECO_chip.py --design_dir test_example/TPU/
+python3 src/greenfpga.py --design_dir test_example/TPU/
 ```
 To run the analysis using command line parameters : 
 ```
-python3 src/ECO_chip.py --design_dir test_example/TPU/ --num_des 1 --num_app 5 --num_lifetime 8 --power 150 --chip_area 650
-python3 src/ECO_chip.py --design_dir test_example/Agilex/ --num_des 3 --num_app 3 --num_lifetime 5 --power 80  --chip_area 450
+python3 src/greenfpga.py --design_dir test_example/TPU/ --num_des 1 --num_app 5 --num_lifetime 8 --power 150 --chip_area 650
+python3 src/greenfpga.py --design_dir test_example/Agilex/ --num_des 3 --num_app 3 --num_lifetime 5 --power 80  --chip_area 450
 ```
 
 
