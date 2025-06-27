@@ -28,6 +28,7 @@ Tool to evaluate the carbon footprint of FPGA-based computing across its lifetim
   - [cpa_scaling.json](./tech_params/cpa_scaling.json)
   - [defect_density.json](./tech_params/defect_density.json)
   - [dyn_pwr_scaling.json](./tech_params/dyn_pwr_scaling.json)
+  - [area_config.json](./tech_params/area_config.json)
 - [README.md](README.md)
 - **test_example**
   - **Agilex**
@@ -117,6 +118,9 @@ GreenFPGA tool can also accept parameters from the command line and below are so
 --ope_vol       : Opertaion Volume 
 --emb_vol       : Embodied Volume
 ```
+
+The [area_config.json](./tech_params/area_config.json) file defines the area distribution across logic, analog I/O, and memory components for the current design. The distribution is based on our evaluation of multiple die shots and we assume the same distribution in our analysis. 
+
 Commands to run GreenFPGA with these parameters are provided in the next section below. 
 
 

@@ -117,20 +117,23 @@ with open(param_json_file,'r') as file:
     
 area = fpga_spec_json['area']
 
+#Read the area conifg json and use that in current design
+with open("tech_params/area_config.json","r") as f:
+    area_config = json.load(f)
+
 inp_des=pd.DataFrame()
 inp_des.at['Logic','type'] = 'logic'
-inp_des.at['Logic','area'] = area*0.74
+inp_des.at['Logic','area'] = area*area_config["logic"]
 inp_des.at['Analog/IO','type'] = 'analog'
-inp_des.at['Analog/IO','area'] = area*0.16
+inp_des.at['Analog/IO','area'] = area*area_config["analog_io"]
 inp_des.at['Memory','type'] = 'sram'
-inp_des.at['Memory','area'] = area*0.1
+inp_des.at['Memory','area'] = area*area_config["memory"]
 design=inp_des
 
-
 if args.chip_area is not None :
-    design.at['Logic','area'] = chip_area*0.74 
-    design.at['Analog/IO','area'] = chip_area*0.16
-    design.at['Memory','area'] = chip_area*0.1
+    design.at['Logic','area'] = chip_area*area_config["logic"]
+    design.at['Analog/IO','area'] = chip_area*area_config["analog_io"]
+    design.at['Memory','area'] = chip_area*area_config["memory"]
 else :
     design = design
 
